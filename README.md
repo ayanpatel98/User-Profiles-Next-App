@@ -1,36 +1,31 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## Project Setup
 
-First, run the development server:
+1. First Install the dependencies by using:
+- npm install
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. For running on the development server execute:
+- npm run dev
+
+## Assumptions:
+In terms of high level view of this application, it basically fetches data from the mock api which contains the users data and displays each users data on the homepage and a particular user can like/dislike a fetched user profile using a button and can see more details of a user by clicking on the user profile tile from a grid of tiles.
+
+## Operation Instructions:
+1. This Application has a proper usage of Tailwind CSS, Typscript, Nextjs 14.1.0.
+
+2. Upon starting you will be landed on the home page of the User Profiles Page and as per the requirements, it displays a list of user profiles each with name, email, likes, etc. which would appear in a grid like format aka a card. Each card also has a like button within it so that a user can like a profile of a person and can also dislike it. The details would appear in a grid layout which is responsive. This home page is defined in the index.tsx file located at /page/home/index.tsx. The hompage also has a child component which representes a card having a user profile. It is located at /app/components/user-data.tsx.
+
+3. The User profile data is fetched from a mock API "https://jsonplaceholder.typicode.com/users". The mock api does not have the number of likes for any user profile data, so after fetching the user profiles , I have manually added random likes for each user profile using random function which generates likes in 0-1000 range of a profile.
+
+4. Each card/tile for a user profile has a like button which would increment the number of likes for that particular user by 1. After liking a user, the button would turn into dislike button and would decrement the number of likes by 1. This functionality is a simulation of liking and disliking posts on instagram or facebook .
+
+5. I have used server action or API route functionality to fetch the user profile details from the server and implemented the liking operation for a user profile on it. This is the Implementation of a server action or API route with proper functionality. The server actions are defined in the server-api.ts file which is located at /pages/api/server-action.ts
+
+6. To know more details of a particular user, you just simply click on the user profile card/tile on the homepage and you will be redirected to the user-details page. You will be dynamically be routed on this page based on the userID of the user profile you clicked,  this is the Implementation of a dynamic route with statically generated detail pages. This page also has a go to the home page button which will redirect you back to the home page. This file is located at /pages/user-details/[id].tsx. Also if there is no more detail for a particular user or if you try to access the dynamic path of the user-detail page directly (for e.g., localhost:3000/user-detail/20), then it would show "User Data Not available" text and a button to go back to home.
+
+7. I have made this application mobile responsive using tailwind CSS classes and applied basic styling of the application for a clean and user-friendly interface.
+
+8. I have also implemented type checking in all the components, server action files and components and created interfaces as required in the /app/models folder.
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

@@ -5,7 +5,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 let cachedUsers: User[] = [];
 
 /**
- * Function to fetch users from an Mock API and cache the results.
+ * Function to fetch users from an Mock API and cache the API response.
  * @params None
  * @returns Promise<User[]> Array of users
  */
