@@ -8,6 +8,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 2. For running on the development server execute:
 - npm run dev
 
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
 ## Assumptions:
 In terms of high level view of this application, it basically fetches data from the mock api which contains the users data and displays each users data on the homepage and a particular user can like/dislike a fetched user profile using a button and can see more details of a user by clicking on the user profile tile from a grid of tiles.
 
@@ -28,4 +30,5 @@ In terms of high level view of this application, it basically fetches data from 
 
 8. I have also implemented type checking in all the components, server action files and components and created interfaces as required in the /app/models folder.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+NOTE: I have tried deploying this next.js app on github pages but as per the next.js documentation: Features that require a Node.js server, or dynamic logic that cannot be computed during the build process, are not supported (Ref: https://nextjs.org/docs/pages/building-your-application/deploying/static-exports)
