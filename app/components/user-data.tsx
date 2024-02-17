@@ -1,32 +1,62 @@
 "use client"
 import { useState } from 'react';
 import Link from 'next/link';
-import { incrementDecrementLike } from '../services/api';
+import { User } from '../models/user';
 
-const UserData = ( {user}: any ) => {
-  const [likes, setLikes] = useState(user.likes);
-  const [liked, setLiked] = useState(user.liked);
+interface Props {
+  user: User;
+}
 
-  const handleLike = () => {
-    setLikes((prevLikes : any) => liked ? prevLikes - 1 : prevLikes + 1);
-    setLiked((prevLiked : any) => !prevLiked);
-    incrementDecrementLike(user.id, liked, likes);
+const UserData: React.FC<Props> = ({ user }) => {
+  const [likes, setLikes] = useState<number>(user.likes);
+  const [isLiked, setLiked] = useState<boolean>(user.isLiked);
+
+  const handleLike = async (): Promise<void> => {
+    try {
+      // Send a POST request to the server API to update like status
+      const response = await fetch('/api/server-api', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: user.id,
+          currentLiked: isLiked,
+          currentLikes: likes,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update like');
+      }
+      
+      // Update likes and like status locally based on the response
+      setLikes(prevLikes => (isLiked ? prevLikes - 1 : prevLikes + 1));
+      setLiked(wasLiked => !wasLiked);
+    } catch (error) {
+      console.error('Error updating like:', error);
+    }
   };
 
   return (
-    <div className="border rounded p-4">
-      <h2 className="text-lg font-semibold">{user.name}</h2>
-      <p>{user.email}</p>
-      <p>{user.phone}</p>
-      <p>{user.website}</p>
-      <p>Likes: {likes}</p>
-      <button className="bg-blue-500 text-white px-2 py-1 mt-2"
-        onClick={handleLike} >
-          {liked ? 'Unlike' : 'Like'}
-      </button>
-      <Link href={`/user-details/${user.id}`} legacyBehavior>
-        <a className="block mt-2 text-blue-500">View Details</a>
+    <div className="border rounded p-4 bg-gray-100 hover:shadow-xl
+     hover:bg-gray-300 ease-in-out duration-200" title='Go to Details'>
+      <Link href={`/user-details/${user.id}`}>
+        <div className='cursor-pointer'>
+          <h2 className="text-lg font-bold">{user.name}</h2>
+          <p><span className='font-bold'>Email: </span>{user.email}</p>
+          <p><span className='font-bold'>Phone Number:</span> {user.phone}</p>
+          <p><span className='font-bold'>User Website:</span> {user.website}</p>
+          <p className='font-bold'>Likes: <span className='text-green-600'>{likes}</span></p>
+        </div>
       </Link>
+      <div className='text-center'>
+        {/*  change button color based on isLike boolean */}
+        <button className={`${isLiked ? 'bg-red-500' : 'bg-blue-500'} rounded text-white px-2 py-1 mt-2`}
+          onClick={handleLike} >
+          {isLiked ? 'Dislike' : 'Like'}
+        </button>
+      </div>
     </div>
   );
 };
